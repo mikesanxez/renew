@@ -33,9 +33,9 @@ class AuthController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
-            'apellido' => 'required',
-            'telefono' => 'required',
-            'username' => 'required',
+            'apellido' => ['required', 'regex:/^[\pL\s]+$/u'],
+            'telefono' => 'required|numeric',
+            'username' => 'required|alpha_num',
         ]);
     }
 

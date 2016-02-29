@@ -15,6 +15,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('subasta/ofertar/{id}', 'SubastasController@oferta');
 
     Route::get('perfil/{id}', 'UsuariosControllers@show');
+    Route::post('perfil/{id}', 'UsuariosControllers@update');
 });
 
 Route::group(['middleware' => 'web'], function () {

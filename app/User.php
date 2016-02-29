@@ -12,7 +12,7 @@ class User extends Authenticatable
     //especifica los datos que son guardables en la base de datos
     protected $fillable = [
         'name', 'apellido', 'estado', 'ciudad', 'direccion', 'colonia', 'telefono', 'email',
-        'rol_id', 'password', 'username'];
+        'rol_id', 'password', 'username', 'CP'];
 
     protected $hidden = [
         'password', 'remember_token',

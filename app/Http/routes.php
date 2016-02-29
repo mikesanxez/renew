@@ -16,6 +16,7 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('perfil/{id}', 'UsuariosControllers@show');
     Route::post('perfil/{id}', 'UsuariosControllers@update');
+    Route::get('borrar/{id}', 'UsuariosControllers@destroy');
 });
 
 Route::group(['middleware' => 'web'], function () {

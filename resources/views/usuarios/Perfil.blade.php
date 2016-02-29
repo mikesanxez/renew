@@ -95,10 +95,15 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-2 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-user"></i>Actualizar
                                 </button>
+                            </div>
+                            <div class="col-md-2 col-md-offset-1">
+                                <a href="../borrar/{{base64_encode($usuario->id)}}" class="btn btn-danger">
+                                    <i class="fa fa-btn fa-user"></i>Borrar Cuenta
+                                </a>
                             </div>
                         </div>
                     {!!Form::close()!!}

@@ -36,4 +36,15 @@ class UsuariosControllers extends Controller
     	\Session::flash('message', 'Datos actualizados correctamente');
     	return redirect::back();
     }
+
+    public function destroy($Id)
+    {
+        $id = base64_decode($Id);
+        $user = User::find($id);
+        $user->delete();
+        // Para restaurar es con el metodo restore()
+        \Session::flash('message', 'Usuario Borrado Correctamente');
+
+        return redirect('home');
+    }
 }

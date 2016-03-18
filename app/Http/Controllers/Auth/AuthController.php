@@ -52,21 +52,4 @@ class AuthController extends Controller
             'rol_id' => '2',
         ]);
     }
-/*
-    protected function validateLogin(Request $request)
-    {
-        $this->validate($request, [
-            $this->loginUsername() => 'required', 'password' => 'required',
-        ]);
-    }
-
-    public function loginUsername()
-    {
-        return property_exists($this, 'username') ? $this->username : 'Email';
-    }
-
-    protected function getCredentials(Request $request)
-    {
-        return $request->only($this->loginUsername(), 'password');
-    }   */
 }

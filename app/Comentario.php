@@ -9,13 +9,13 @@ class Comentario extends Model
     public $timestamps = false;
     protected $table = 'Comentario';
 
-    protected $fillable = ['Fecha', 'Contenido', 'Producto_id'];
+    protected $fillable = ['Fecha', 'Contenido', 'Producto_id', 'users_id'];
 
     public function producto(){
-    	return $this->belongsTo('Productos');
+    	return $this->belongsTo('Producto', 'Producto_id');
     }
 
-    public function user(){
-    	return $this->producto->user;
+    public function usuario(){
+    	return $this->belongsTo('App\User', 'users_id');
     }
 }

@@ -13,6 +13,8 @@ Route::group(['middleware' => ['web']], function () {
     //rutas para guardar comentarios y ofertas
     Route::post('subasta/comentar/{id}', 'SubastasController@comentario');
     Route::post('subasta/ofertar/{id}', 'SubastasController@oferta');
+    //rutas para notificacion
+    Route::get('notificacion/{id}', 'SubastasController@notificacion');
 
     Route::get('perfil/{id}', 'UsuariosControllers@show');
     Route::post('perfil/{id}', 'UsuariosControllers@update');

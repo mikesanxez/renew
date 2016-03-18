@@ -3,6 +3,7 @@
 @section('title') Crear Subasta @stop <!-- modificamos el titulo de la página-->
 
 @section('body') <!-- Modificamos el body de la plantilla maestra para que cambie en esta página-->
+<?php date_default_timezone_set("America/Mexico_City");?>
 	<!-- formulario para crear la subasta-->
 	<section class="container">
 		<section class="row">

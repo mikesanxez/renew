@@ -29,6 +29,10 @@ class Producto extends Model
     }
 
     public function user(){
-        return $this->belongsTo('App\user', 'User_id');
+        return $this->belongsTo('App\User', 'users_id');
+    }
+
+    public function scopeFecha($query, $term){
+        $query->where("Fecha_fin", "<=", "$term");
     }
 }

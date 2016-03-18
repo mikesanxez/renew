@@ -3,6 +3,20 @@
 @section('body')
 <div class="container">
     <div class="row">
+    @if (!Auth::guest())
+        @if (isset($term))                    
+            @foreach ($term as $subasta)
+                @if (Auth::user()->id == $subasta->users_id)
+                    <div class="alert alert-success alert-dismissable" id = "alerta-sub">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <p>Subasta terminada <strong>{{$subasta->Nombre}}</strong></p>
+                    <a href="notificacion/{{$subasta->id}}">Notificar al Ganador</a>
+                    </div>
+                @endif
+            @endforeach
+        @endif
+    @endif
+
         <label>Subastas</label>
         <div>
             @foreach ($productos as $producto)

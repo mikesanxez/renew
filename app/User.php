@@ -25,7 +25,7 @@ class User extends Authenticatable
 
     //especifica las relaciones con los demas modelos
     public function productos(){
-        return $this->hasMany('App\Producto');
+        return $this->hasMany('App\Producto', 'users_id');
     }
 
     public function rol(){
@@ -38,6 +38,14 @@ class User extends Authenticatable
 
     public function comentarios(){
         return $this->hasManyThrough('App\Comentario', 'App\Producto', 'users_id', 'Producto_id');
+    }
+
+    public function coments(){
+        return $this->hasMany('App\Comentario');
+    }
+
+    public function oferts(){
+        return $this->hasMany('App\Oferta');
     }
 
 }

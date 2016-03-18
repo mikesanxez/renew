@@ -2,12 +2,43 @@
 
 @section('title') Subasta @stop
 
+@section('head')
+<script>
+
+function float2int (value) {
+    return value | 0;
+}
+	$(document).on("ready", function(){
+		var sesion = $("#sesion").val();
+		var pi = $("#pi").val();
+		var pm = $("#pm").val();
+		var ultima = $("#ultima").val();
+		$("#ofertar").on("click", function(e){
+			if (sesion > 0){
+				if (float2int($("#cantidad").val()) > float2int(pi) 
+					&& float2int($("#cantidad").val()) <= float2int(pm)){
+				}else{
+					alert('Pública una cantidad valida');
+					e.preventDefault();
+				}
+			}else{
+				alert('Inicia sesion para poder públicar');
+				e.preventDefault();
+			}
+		});
+	});
+</script>
+@stop
+
 @section('body')
 
 	<section class="container">
 		<section class="row">
 		<!-- Aqui se comienzan a imprimir los datos del prodcuto que se esta subastando -->
-		<h1>{{$producto->Nombre}}</h1>
+		@if (isset($boll))
+		<strong><h1>SUBASTA CERRADA</h1></strong>
+		@endif
+		<h1>{{$producto->Nombre}}</h1> 
 		<!-- ciclo poara imprimir las imagenes-->
 			@foreach ($imagenes as $imagen)
 			<!-- Compara el id del producto con la llave foranea y ve si la imagen corresponde al producto de ser asi se imprime -->
@@ -41,20 +72,34 @@
 			<section class="form-group">
 				<label>Ultima oferta:</label>
 				@if (count($producto->ofertas) != null)
-					${{$producto->ofertas->last()->Cantidad}}	
+					${{$producto->ofertas->last()->Cantidad}}
+					<strong>hecha por:</strong> {{$usuario->name}}
 				@endif
+			</section>
+			<section class="form-group">
+				<label>públicado por:</label>
+					{{$producto->user->name}}
 			</section>
 		</section>
 		<br>
+		@if (!Auth::guest())
+				<input type="hidden" value="{{Auth::user()->id}}" id="sesion">
+				<input type="hidden" value="{{$producto->Precio_inicial}}" id="pi">
+				<input type="hidden" value="{{$producto->Precio_max}}" id="pm">
+				@if (count($producto->ofertas) != null)
+					<input type="hidden" value="{{$producto->ofertas->last()->Cantidad}}" id="ultima">
+				@endif
+		@endif
 		<!-- Formulario para ofertar -->
+		@if (!isset($boll))
 		<section class="row">
 			<section class="col-md-3">
 				{!!Form::open(['url' => ['subasta/ofertar', $producto->id], 'method' => 'POST'])!!}
 					<section class="form-group">
 						<label>Cantidad a Ofertar</label>
-						{!!Form::number('Cantidad', null, ['class' => 'form-control'])!!}
+						{!!Form::number('Cantidad', null, ['class' => 'form-control', 'id' =>'cantidad'])!!}
 					</section>
-					{!!Form::submit('Ofertar',['class' => 'btn btn-success'])!!}
+					{!!Form::submit('Ofertar',['class' => 'btn btn-success', 'id' => 'ofertar'])!!}
 				{!!Form::close()!!}
 			</section>
 		</section>
@@ -82,5 +127,6 @@
 				@endforeach
 			</section>	
 		</section>
+		@endif
 	</section>
 @stop

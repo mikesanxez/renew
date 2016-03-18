@@ -5,7 +5,7 @@
 @section('body')
 	<div class="container">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-7">
             <div class="panel panel-default">
                 <div class="panel-heading">Datos Personales</div>
                 <div class="panel-body">
@@ -113,6 +113,21 @@
     </div>
 </div>
 
-
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <h3>Productos Subastados</h3>
+            @foreach ($usuario->productos as $producto)
+                <div class="form-group">
+                @foreach ($producto->imagenes as $imagen)
+                    <a href="../subasta/{{base64_encode($producto->id)}}"><img src="data:image/$imagen->Mime;base64,{{chunk_split(base64_encode($imagen->Archivo))}}"  width="40%"/></a>
+                @endforeach
+                    <br>
+                    <strong>{{$producto->Nombre}}</strong>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
 
 @stop

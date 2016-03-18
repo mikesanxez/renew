@@ -26,6 +26,7 @@ class SubastasController extends Controller
         /*ProductoCreateRequest es el filtro que evalua las reglas de validación
         del formulario las cuales se encuentran en http/requests/ProductoCreateRequest.php*/
     	// guarda el producto de la subasta creada
+        //se accede al metodo create del ORM de laravel y dentro se acceden a los campos de la tabla producto en el cual se guardan los valores recogidos del formulario
     	$producto  = Producto::create([
             'Nombre' => $request->input('Nombre'),
             'Descripcion' => $request->input('Descripcion'),
@@ -37,9 +38,9 @@ class SubastasController extends Controller
             'Estatus' => 'Disponible',
             ]);
         //esta parte es para guardar las imagenes
-        for ($i=1; $i < 4; $i++){ 
-	    	$image = new Imagen();  
-	        $file = $request->file('Imagen_'.$i);
+        for ($i=1; $i < 4; $i++){ //ciclo para recorrer los tres campos de imagenes
+	    	$image = new Imagen();  //objeto del model imagen
+	        $file = $request->file('Imagen_'.$i); //se recogen los archivos del formulario
             //se evalua si los campos estan vacios si no obtiene las variables a guaradar
 	        if($file != null){
 	            $nombre = $file->getClientOriginalName();
@@ -75,10 +76,22 @@ class SubastasController extends Controller
     public function show(Request $request, $Id){
         //metodo para visualizar el perfil de las subasta
         //se hacen consultas para obtener los datos que se van a imprimir en la vista
-    	$id = base64_decode($Id);
-    	$producto = Producto::find($id);
-    	$imagenes = Imagen::all();
-    	return view('subastas.Subasta', compact('producto', 'imagenes'));
+        date_default_timezone_set("America/Mexico_City");
+        $date = Carbon::now();
+        $date = $date->format('Y-m-d'); 
+        //$term = Producto::Fecha($date)->get();
+        
+        $id = base64_decode($Id);
+        $producto = Producto::find($id);
+        $imagenes = Imagen::all();
+        if(!empty($producto->ofertas)){
+        $usuario = Producto::find($id)->ofertas->last()->usuario;
+        }
+        if ($date >= $producto->Fecha_fin) {
+            $boll = 1;
+        }
+
+    	return view('subastas.Subasta', compact('producto', 'imagenes', 'usuario', 'term','boll'));
     }
 
     public function comentario(Request $request, $id){
@@ -90,6 +103,7 @@ class SubastasController extends Controller
             'Contenido'     => $request->input('Contenido'),
             'Fecha'         =>  Carbon::now(),
             'Producto_id'   => $producto->id,
+            'users_id'      => \Auth::user()->id,
             ]);
         // se redirecciona a la misma página ya con el comentario impreso
         return redirect::back();
@@ -98,13 +112,50 @@ class SubastasController extends Controller
     public function oferta(Request $request, $id){
         //metodo para guardar las ofertas de la subasta que se este revisando
         //se encuentra el producto que se esta visualizando
-        $producto = Producto::find($id);
+        //$producto = Producto::find($id);
         // se guarda el comentario con el id del producto
         $oferta = Oferta::create([
             'Cantidad'      => $request->input('Cantidad'),
             'Producto_id'   => $id,
+            'users_id'      => \Auth::user()->id,
             ]);
         // se redirecciona a la misma página ya con el comentario impreso
         return redirect::back();
+    }
+
+    public function notificacion($id){
+       $producto = Producto::find($id);
+       $ofertas = $producto->ofertas;
+       
+       if (count($ofertas)) {
+           $usuario = Producto::find($id)->ofertas->last()->usuario;
+           
+      $ToMail = $usuario->email;
+      $ToName = $usuario->name;
+
+      $data = [
+        'Subasta' => $producto->Nombre,
+        'Monto' => $producto->ofertas->last()->Cantidad,
+      ];
+      
+    \Mail::send('emails.Notificacion',$data, function($message) use ($ToName, $ToMail){
+          
+           //remitente
+           $message->from(env('MAIL_FROM'), env('MAIL_NAME'));
+ 
+           //asunto
+           $message->subject('Notificacion de ');
+ 
+           //receptor
+           $message->to($ToMail, $ToName);
+           $message->cc('victorzapata1987@hotmail.com', $name = null);
+      
+       });
+
+       }else{
+            dd('no ofert');
+       }
+
+        return redirect('home');
     }
 }

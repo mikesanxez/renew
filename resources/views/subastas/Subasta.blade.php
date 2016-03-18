@@ -90,7 +90,9 @@ function float2int (value) {
 				<input type="hidden" value="{{Auth::user()->id}}" id="sesion">
 				<input type="hidden" value="{{$producto->Precio_inicial}}" id="pi">
 				<input type="hidden" value="{{$producto->Precio_max}}" id="pm">
-				<input type="hidden" value="{{$producto->ofertas->last()->Cantidad}}" id="uo">
+				@if (empty($producto->ofertas))
+					<input type="hidden" value="{{$producto->ofertas->last()->Cantidad}}" id="uo">
+				@endif
 				@if (count($producto->ofertas) != null)
 					<input type="hidden" value="{{$producto->ofertas->last()->Cantidad}}" id="ultima">
 				@endif

@@ -153,7 +153,7 @@ class SubastasController extends Controller
        });
 
        }else{
-            dd('no ofert');
+            \Session::flash('message', 'Nadie oferto en esta subasta');
        }
 
         return redirect('home');

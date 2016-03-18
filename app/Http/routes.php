@@ -1,7 +1,7 @@
 <?php
 use App\User;
 Route::get('/', function () {
-    User::create([
+ /*   User::create([
         'name' => 'Administrador',
         'apellido' => 'Admin',
         'username' => 'Admin',
@@ -10,7 +10,7 @@ Route::get('/', function () {
         'password' => bcrypt('123abc'),
         'rol_id' => '1',
         ]);
-
+*/
     return redirect('home');
 });
 

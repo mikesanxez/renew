@@ -12,11 +12,13 @@ function float2int (value) {
 		var sesion = $("#sesion").val();
 		var pi = $("#pi").val();
 		var pm = $("#pm").val();
+		var uo = $("#uo").val();
 		var ultima = $("#ultima").val();
-		$("#ofertar").on("click", function(e){
+		$("#ofertar").on("click", function(e){ 
 			if (sesion > 0){
 				if (float2int($("#cantidad").val()) > float2int(pi) 
-					&& float2int($("#cantidad").val()) <= float2int(pm)){
+					&& float2int($("#cantidad").val()) <= float2int(pm)
+						&& float2int($("#cantidad").val()) > float2int(uo)){
 				}else{
 					alert('Pública una cantidad valida');
 					e.preventDefault();
@@ -73,7 +75,9 @@ function float2int (value) {
 				<label>Ultima oferta:</label>
 				@if (count($producto->ofertas) != null)
 					${{$producto->ofertas->last()->Cantidad}}
+					@if(!empty($usuario->name))
 					<strong>hecha por:</strong> {{$usuario->name}}
+					@endif
 				@endif
 			</section>
 			<section class="form-group">
@@ -86,6 +90,7 @@ function float2int (value) {
 				<input type="hidden" value="{{Auth::user()->id}}" id="sesion">
 				<input type="hidden" value="{{$producto->Precio_inicial}}" id="pi">
 				<input type="hidden" value="{{$producto->Precio_max}}" id="pm">
+				<input type="hidden" value="{{$producto->ofertas->last()->Cantidad}}" id="uo">
 				@if (count($producto->ofertas) != null)
 					<input type="hidden" value="{{$producto->ofertas->last()->Cantidad}}" id="ultima">
 				@endif

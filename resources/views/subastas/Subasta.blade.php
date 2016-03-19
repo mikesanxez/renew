@@ -90,7 +90,7 @@ function float2int (value) {
 				<input type="hidden" value="{{Auth::user()->id}}" id="sesion">
 				<input type="hidden" value="{{$producto->Precio_inicial}}" id="pi">
 				<input type="hidden" value="{{$producto->Precio_max}}" id="pm">
-				@if (empty($producto->ofertas))
+				@if (count($producto->ofertas))
 					<input type="hidden" value="{{$producto->ofertas->last()->Cantidad}}" id="uo">
 				@endif
 				@if (count($producto->ofertas) != null)
@@ -128,7 +128,7 @@ function float2int (value) {
 			<section class="col-md-9">
 				@foreach($producto->comentarios as $coment)
 					<div class="form-group">
-					<label>Publicado por:</label> {{$coment->usuario->Nombre}}
+					<label>Publicado por:</label> {{$coment->usuario->name}} <br>
 						{{$coment->Contenido}}
 					</div>	
 				@endforeach

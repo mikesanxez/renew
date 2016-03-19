@@ -17,7 +17,7 @@ class ProductoCreateRequest extends Request
             'Nombre'            => ['required', 'regex:/^[\pL\s]+$/u'],
             'Fecha_inicio'      => 'required|date',
             'Fecha_fin'         => 'required|date',
-            'Descripcion'       => ['required','regex:/^[0-9#.\pL\s]+$/u'],
+            'Descripcion'       => ['regex:/^[0-9#,.;!¡¿?áéíóúÁÉÍÓÚ\pL\s]+$/u'],
             'Imagen_1'          => 'required|image',
             'Imagen_2'          => 'image',
             'Imagen_3'          => 'image',

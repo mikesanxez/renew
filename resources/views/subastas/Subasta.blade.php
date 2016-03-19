@@ -128,7 +128,7 @@ function float2int (value) {
 			<section class="col-md-9">
 				@foreach($producto->comentarios as $coment)
 					<div class="form-group">
-					<label>Publicado por:</label> {{$coment->usuario}}
+					<label>Publicado por:</label> {{$coment->usuario->Nombre}}
 						{{$coment->Contenido}}
 					</div>	
 				@endforeach
